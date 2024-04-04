@@ -1,0 +1,93 @@
+@startuml
+actor User
+actor Admin
+
+participant "Dashboard System" as DashboardSystem
+participant "News Management System" as NewsSystem
+participant "User Management System" as UserSystem
+participant "Admission System" as AdmissionSystem
+
+
+User -> DashboardSystem: Login
+activate DashboardSystem
+DashboardSystem --> User: Display dashboard
+DashboardSystem --> User: Display latest news and information of educational institute on dashboard
+User -> DashboardSystem: Search on Search bar
+DashboardSystem --> User: Display search results
+User -> DashboardSystem: View of attendance
+DashboardSystem --> User: Display attendence of user
+User -> DashboardSystem: View of attendance
+DashboardSystem --> User: Display attendence of user
+User -> DashboardSystem: To generate attendence report on basis of filters
+DashboardSystem --> User: Display attendence reports of user
+User -> DashboardSystem: To generate student evaluation report
+DashboardSystem --> User: Display report after obtaining from report generation center in Examination system
+User -> DashboardSystem : To send SMS to single or group of users
+DashboardSystem -> User : Confirmation on message sent
+deactivate DashboardSystem
+
+
+Admin -> DashboardSystem: Configure settings like language,time zones, country,SMS alerts etc
+activate DashboardSystem
+DashboardSystem --> Admin: Display configuration options
+Admin -> DashboardSystem: Submit configuration
+DashboardSystem --> Admin: Confirm configuration update
+Admin -> DashboardSystem: Drag and drop timetable
+DashboardSystem --> Admin: updates timetable location according to admin choice
+deactivate DashboardSystem
+
+
+Admin -> NewsSystem: Create news
+activate NewsSystem
+NewsSystem --> Admin: Display news form
+Admin -> NewsSystem: Submit news
+NewsSystem --> Admin: Confirm news creation
+Admin -> NewsSystem: Edit/Delete news
+NewsSystem --> Admin: updates news or delete it
+Admin -> NewsSystem: Edit/Delete comments on news
+NewsSystem --> Admin: updates comments on news or delete it
+deactivate NewsSystem
+
+User -> DashboardSystem: View news
+activate NewsSystem
+DashboardSystem->NewsSystem : To fetch all news
+NewsSystem-> DashboardSystem : Returns list of news
+DashboardSystem --> User: Display news list
+User -> DashboardSystem: Comment on news
+DashboardSystem-> NewsSystem : To add input comment on news
+NewsSystem->DashboardSystem: Confirm comment addition
+DashboardSystem --> User: Confirm comment submission
+User -> DashboardSystem: Edit/Delete comments on news
+DashboardSystem->NewsSystem: To edit/delete comments on news
+NewsSystem->DashboardSystem: updates the comments or delete it
+DashboardSystem --> User: confirm on updation
+deactivate NewsSystem
+
+Admin -> UserSystem: Search for a user using search bar
+activate UserSystem
+UserSystem --> Admin: Display user information
+Admin -> UserSystem: View user profile based on roles
+UserSystem --> Admin: Display user profile
+Admin -> UserSystem: Edit/View user privileges and passwords
+UserSystem --> Admin: Confirm privilege update
+Admin -> UserSystem: Set user privileges as per their roles
+UserSystem --> Admin: Confirm privilege update
+Admin -> UserSystem : To set/update standards for different roles based on their responsibility
+UserSystem->Admin : confirmation on setting/updating
+deactivate UserSystem
+
+
+User -> AdmissionSystem: Submit admission form
+activate AdmissionSystem
+AdmissionSystem -> AdmissionSystem: Generate unique ID
+AdmissionSystem --> User: Confirm admission submission
+deactivate AdmissionSystem
+
+Admin -> AdmissionSystem: Manage admissions
+activate AdmissionSystem
+AdmissionSystem --> Admin: Display admission list
+Admin -> AdmissionSystem: View admission details
+AdmissionSystem --> Admin: Display admission details
+deactivate AdmissionSystem
+
+@enduml

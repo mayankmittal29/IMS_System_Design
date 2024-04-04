@@ -1,0 +1,121 @@
+@startuml
+actor Admin
+actor Employee
+actor Teacher
+actor Student
+actor Parent
+
+participant "HR System" as HRSystem
+participant "Attendance System" as AttendanceSystem
+participant "Finance System" as FinanceSystem
+participant "Messaging System" as MessagingSystem
+participant "Timetable System" as TimetableSystem
+
+
+Admin -> HRSystem: Manage employee
+activate HRSystem
+HRSystem --> Admin: Display employee form
+Admin -> HRSystem: Submit employee data
+HRSystem --> Admin: Confirm employee addition/update
+deactivate HRSystem
+
+Employee -> HRSystem: Request leave
+activate HRSystem
+HRSystem --> Admin: Approve/reject leave?
+Admin -> HRSystem: Submit leave decision
+HRSystem --> Employee: Notify leave status
+deactivate HRSystem
+
+Admin -> HRSystem: Manage entire payroll efficiently
+activate HRSystem
+HRSystem->HRSystem : Compute the payroll of employees doing all salary deductions and bonuses etc
+HRSystem-> FinanceSystem: Send the payroll data to generate payslips
+activate FinanceSystem
+FinanceSystem -> FinanceSystem : Automatic processing,calculations and payslip generation
+FinanceSystem-> HRSystem: returns payslips with its approval
+deactivate FinanceSystem
+HRSystem --> Admin: Display payslip for approval
+Admin -> HRSystem: One-click payslip approval
+HRSystem --> Admin: Confirm payslip approval
+Admin -> HRSystem: Reject payslip
+HRSystem --> Admin: Confirm payslip rejection
+HRSystem -> HRSystem : Rechecking of payroll data
+HRSystem -> FinanceSystem : Tells about payslip rejection by admin
+deactivate HRSystem
+
+Teacher -> AttendanceSystem: Mark attendance
+activate AttendanceSystem
+AttendanceSystem --> Teacher: Display attendance form
+Teacher -> AttendanceSystem: Submit attendance
+AttendanceSystem --> Teacher: Confirm attendance submission
+Teacher -> AttendanceSystem: Can add notes/remarks on attendence given
+deactivate AttendanceSystem
+
+FinanceSystem -> FinanceSystem: Manage Assets,Liabilities and Donations
+Admin -> FinanceSystem: Manage fees
+activate FinanceSystem
+FinanceSystem --> Admin: Display fee management options
+Admin -> FinanceSystem: Set fee structure
+FinanceSystem --> Admin: Confirm fee structure update
+deactivate FinanceSystem
+
+
+Admin -> FinanceSystem: Fetch list of fee defaulters and their details
+activate FinanceSystem
+FinanceSystem --> Admin: return the list of fee defaulters
+deactivate FinanceSystem
+
+FinanceSystem->FinanceSystem : Efficient Fee collection date designing system
+Student -> FinanceSystem: Pay fees instantly
+activate FinanceSystem
+FinanceSystem --> Student: Display payment form
+Student -> FinanceSystem: Submit payment
+FinanceSystem --> Student: Confirm payment by automatic transactions
+deactivate FinanceSystem
+FinanceSystem->FinanceSystem : managing all expenses and incomes efficiently
+
+Admin -> FinanceSystem: Different reports generation
+activate FinanceSystem
+FinanceSystem --> Admin: return the reports for analysis
+deactivate FinanceSystem
+Admin -> FinanceSystem : To assign tutor to students
+activate FinanceSystem
+FinanceSystem -> Student : Tutor assigned based on batches
+deactivate FinanceSystem
+
+Admin -> MessagingSystem: Send message
+activate MessagingSystem
+MessagingSystem --> Admin: Display message form
+Admin -> MessagingSystem: Submit message
+MessagingSystem --> Admin: Receives messages from parents, students and teachers
+Admin -> MessagingSystem: Prior information regarding school events,news and holidays
+MessagingSystem --> Teacher: Receive messages
+Teacher -> MessagingSystem: Send messages to others
+MessagingSystem --> Student: Receive messages
+Student -> MessagingSystem: Send messages to others
+MessagingSystem --> Parent: Receive messages
+Parent -> MessagingSystem: Send messages to others
+deactivate MessagingSystem
+
+
+Admin -> TimetableSystem: Create timetable
+activate TimetableSystem
+TimetableSystem --> Admin: Display timetable form
+Admin -> TimetableSystem: Submit timetable
+alt Alerts on timetable creation if limit exceeded
+    TimetableSystem --> Admin: Alerts on timetable creation
+    Admin -> TimetableSystem: Edit/Delete timetable
+    TimetableSystem --> Admin: Returns updated timetable
+else No alerts
+    TimetableSystem --> Admin: No alerts
+TimetableSystem --> Admin: Confirm timetable creation
+Admin -> TimetableSystem: Edit/Delete timetable
+TimetableSystem --> Admin: returns updated timetable
+deactivate TimetableSystem
+
+Teacher -> TimetableSystem: View timetable
+activate TimetableSystem
+TimetableSystem --> Teacher: Display timetable
+deactivate TimetableSystem
+
+@enduml

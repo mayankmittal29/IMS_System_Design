@@ -1,0 +1,71 @@
+actor Admin
+actor Student
+actor Teacher
+
+participant "Admission System" as AdmSystem
+participant "Student Management System" as StudSystem
+participant "Examination System" as ExamSystem
+participant "User Management System" as UserSystem
+
+
+Admin -> AdmSystem: Submit comprehensive admission form
+activate AdmSystem
+AdmSystem -> AdmSystem: Generate unique ID
+AdmSystem --> Admin: Confirm admission
+AdmSystem -> AdmSystem : Store the details of student's past education for records
+Admin -> AdmSystem : Add/update student guardian details
+AdmSystem -> Admin : Guardian details updated/added
+Admin -> AdmSystem : to fetch student details in emergency
+AdmSystem -> Admin : returns emergency details
+Admin -> AdmSystem : to upload/update student photo
+AdmSystem -> Admin : Updated the photo of student successfully
+deactivate AdmSystem
+
+
+Admin -> StudSystem: Advanced Search facility for existing/former students by specifying filters with inputs
+activate StudSystem
+StudSystem --> Admin: Display corresponding student details
+Admin -> StudSystem: View all students based on batches
+StudSystem-> Admin : Returns list of corresponding students
+deactivate StudSystem
+
+
+Teacher -> ExamSystem: Create exam based on grades,marks etc
+activate ExamSystem
+ExamSystem -> Teacher: Exam created
+Teacher -> ExamSystem: Conduct exam
+ExamSystem -> Teacher: Exam results
+Teacher -> ExamSystem : Conduct Group exams
+ExamSystem -> Teacher : Group Exam conducted
+deactivate ExamSystem
+
+
+Admin -> UserSystem: Search for a user using search bar
+activate UserSystem
+UserSystem --> Admin: Display user information
+Admin -> UserSystem: View user profile based on roles
+UserSystem --> Admin: Display user profile
+Admin -> UserSystem: Edit/View user privileges and passwords
+UserSystem --> Admin: Confirm privilege update
+Admin -> UserSystem: Set user privileges as per their roles
+UserSystem --> Admin: Confirm privilege update
+Admin -> UserSystem : To set/update standards for different roles based on their responsibility
+UserSystem->Admin : confirmation on setting/updating
+deactivate UserSystem
+
+
+Student -> StudSystem: View student profile
+activate StudSystem
+StudSystem --> Student: Display profile details
+deactivate StudSystem
+
+
+Teacher -> ExamSystem: To Generate quick ,automated and on demand report 
+activate ExamSystem
+Teacher -> ExamSystem : Instructing to use GPA,CCE and CWA methods for student evaluation
+ExamSystem --> Teacher: Display report statistically and in form of charts for better analytical view
+Teacher -> ExamSystem : View all reports
+ExamSystem -> Teacher: Display all reports statistically and graphically
+deactivate ExamSystem
+
+@enduml

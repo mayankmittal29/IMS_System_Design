@@ -1,0 +1,424 @@
+@startuml
+
+skinparam class {
+    BackgroundColor LightBlue
+    BorderColor Blue
+}
+skinparam ClassFontSize 8
+skinparam ClassAttributeFontSize 7
+skinparam ClassOperationFontSize 8
+skinparam Padding 7
+class Messaging << (C, #3498db) >>
+{
+-messageId: int          
+-sender: String    
+-reciever: String 
+-timestamp: Date
+-message: String
+
++ sendMessage(sender:String, reciever: String, message: String): void
++ recordCommunication(sender: String, reciever: String, message: String): void
++ autoSend(reciever: String, message: String): void
+}
+
+class Guardian  << (D,#FF7700) DataType>>
+{
+-name: String     
+-relationship: String 
+}
+
+class Contact  << (D,#FF7700) DataType>>
+{
+- name: String     
+- address: String
+- email: String    
+- phoneNumber: int 
+}
+
+class Image  << (D,#FF7700) DataType>>
+{
+-imgID: String
+-imgData: byte[]
+}
+
+class EducationDetails  << (D,#FF7700) DataType>>
+{
+-passingYear: int
+-schoolName: String 
+-PercentageOrGPAOfStudent: String
+}
+
+class Field  << (D,#FF7700) DataType>>{
+	-name: String
+	-type: String
+}
+
+class  AdmissionForm {
+- fields: List<Field>    
++ getFields(): List<Field> 
++ removeField(field: Field) : void  
++ addField(field: Field) : void          
+ }
+
+class LocalAdmission{
+-citizenshipNumber: String
+-admissionConfirmationForm: Image
++ uploadCitizenshipNumber(citizenshipNumber: String): void
+}
+
+class TransferStudent{
+-previousCollegeTranscript: Image
+-previousCollegeName: String
++ uploadTranscript(admissionID: String): void
++ retrieveTranscript(admissionID: String): Image
+}
+
+class InternationalAdmission{
+-passportNumber: String  
+-visaNumber: String      
+-countryOfOrigin: String
+-admissionConfirmationForm: Image
++ uploadPassportAndVisa(visaNumber: String, passportNumber: String): void
+}
+
+class Attendance{
+-id: int         
+-studentRoll: int    
+-status: boolean
+-date: Date        
++ markCourseAttendance(date: Date, studentRoll: int, status: boolean): void
++ showCourseAttendance(studentRoll: int): int
++ markSportsAttendance(date: Date, studentRoll: int, status: boolean): void
++ showSportsAttendance(studentRoll: int): int
++ generateReport(id: int): Image
++ addRemarks(remarks: commentId): void
+}
+
+class Admission
+{
+- admissionID: String  
+- emergencyContact: Contact 
+- guardians: List<Guardian> 
+- previousEducation: EducationDetails  
+- photo: Image 
++ createAdmission(admissionID: String, guardians: List<Guardian>, emergencyContact: Contact, previousEducation: EducationDetails, photo: Image): void
++ retrieveAdmission(admissionID: String): String 
++ updateAdmission(admissionID: String, guardians: List<Guardian>, emergencyContact: Contact, previousEducation: EducationDetails, photo: Image): void 
++ deleteAdmission(admissionID: String): void 
++ addLocalGuardian(guardian: Guardian, contact: Contact): void
++ uploadadmissionConfirmationForm(admissionID: String): void
++ retrieveLocalGuardian(admissionID: String): List<Guardian>
+}
+
+class Time <<(D,#FF7700) DataType>> {
+    - hours: int
+    - minutes: int
+    - seconds: int
+}
+
+class Date <<(D,#FF7700) DataType>> {
+    - day: int
+    - month: int
+    - year: int
+}
+
+class Comments{
+-commentId: int
+-time: Time
+-date: Date
+-content: String
+-nameOfCommentor: String
++ addComments(commentId: int, nameOfCommentor: String, time: Time, date: Date, content: String): void
++ retrieveComment(commentId: int): String
++ deleteComment(commentId: int): void
++ editComment(commentId: int): void
+}
+
+class News {
+- newsId: int
+- time: Time
+- date: Date
+- nameOfPublisher: String
+- headline: String
+- content: String
+- photo: Image
+- comments: List<Comment>
++ publishNews(newsId: int, headline: String, time: String, date: String, content: String, nameOfPublisher: String, photo: Image): void
++ searchNews(criteria: List<String>): List<News>
++ deleteNews(newsId: int): void
++ viewAllNews(): List<News>
++ editNews(newsId: int): void
++ addComment(newsId: int): void
++ editComment(newsId: int, commentId: int): void
++ deleteComment(newsId: int, commentId: int): void
++ viewAllComments(newsId: int): List<Comment>
+}
+
+class TimeTable << (C, #3498db) >>
+{
+-idTimetable: int    
+-dayOfWeek: String 
+-idOfEntry: int
+-course: String   
+-startTime: Time   
+-endTime: Time     
+-instructor: String
+-isClass : Boolean   
+-semester: String
+-Classroom : String
++ addEntry(day: String, startTime: Time, endTime: Time, course: String, instructor: String, Classroom: String, isClass: Boolean): void
++ editEntry(idTimetable: int, day: String, startTime: Time, endTime: Time, course: String, instructor: String, Classroom: String, isClass: Boolean): void 
++ deleteEntry(idofEntry: int): void
++ deleteTimeTable(idTimetable: int): void
++ dragTimeTable(idTimetable: int): void
++ alertsubjectclasslimit(idTimetable: int): void
++ alertsubjectlimit(idTimetable: int): void
++ generateTimeTable(): int
+}
+
+class Student {
+- rollNumber: int
+- name: String
+- branch: String
+- address: String
+- batch: String
+- mobileNumber: int
+- bloodGroup: String      
+- photo: Image
+- house: String
+- degree: String
++ addStudentDetails(rollNumber: int, photo: Image, name: String, house: String, branch: String, degree: String, bloodGroup: String, batch: String, address: String, mobileNumber: int): void
++ deleteStudentDetails(rollNumber: int): void
++ editStudentDetails(rollNumber: int, photo: Image, name: String, house: String, branch: String, degree: String, bloodGroup: String, batch: String, address: String, mobileNumber: int): void
++ viewSingleStudentDetails(rollNumber: int): Student
++ advanceSearchStudents(filter: List<String>): List<Student>
++ studentViewByBatch(batch: String): List<Student>
++ searchAlumni(rollNumber: int, name: String): List<Student>
+}
+class DataAndValue <<(D,#FF7700) DataType>> {
+- data: String
+- value: float
+}
+
+class FeesManagement {
+- transactionId: int
+- feesAmount: float              
+- collectionDate: Date   
+- dueTime: Time
+- dueDate: Date
+- paymentOptions: List<String>
++ payFee(paymentOption: String): void
++ generateReceipt(transactionId: int): Image
++ processPaidFee(transactionId: int): void
++ giveBreakdownOfFees(): List<DataAndValue>
++ isDefaulter(paymentDate: Date, paymentTime: Time): bool
+}
+
+class Finance{
+- balanceAmount: float
+- assets: List<DataAndValue>
+- liabilites: List<DataAndValue>
+- donations: List<DataAndValue>
++ calculateBalance(): float
++ generateExpenseReport(): Image
++ manageCategories(assOrLia: List<DataAndValue>): void
++ manageDonations(donations: List<DataAndValue>): void
++ manageLiabilites(liabilites: List<DataAndValue>): void
++ manageAssets(assets: List<DataAndValue>): void
+}
+
+
+class UserMangement{
+- userId: int
+- username: String                    
+- password: String                   
+- role: Role
++ addUser(userId: int, username: String, password: String)                  
++ searchUser(userId: int): User 
++ removeUser(userId: int)               
++ editUserPassword(username: String, password: String, newPassword: String) 
++ viewUserProfile(role: Role): List<User>          
+}
+class PayManagement{
+- salaryAmount: float              
+- dateOfPayment: Date
+- payslipId : int
++ payEmployee(salaryAmount: float, userId: int): void
++ generatePayslip(payslipId: int): Image
+}
+
+class Dashboard{
+-username: String
+-basicInfo: basicConfig
+-language: String
+-contactNumber: int
++ chooseLanguage(language: String): void
++ sendSMS(): void
++ activateSMSmodule(): void
++ setSMSconfig(contactNumbers: List<int>): void
++ retGraduationYear(username: String): int
++ displayAdmissionForm(): void
++ instituteInfo(): String
++ changeBatch(username: String): void
++ displayLatestNews(): List<News>
++ editConfig(country: String, currency: String, timeZone: String): void
++ graduateStudent(username: String): void
+}
+class Role{
+- roleName: String                                    
+- privileges: List<Privilege>             
++ assignPrivileges(privileges: List<Privilege>): void
+}
+
+class Privilege <<(D,#FF7700) DataType>>{	
+- privilegeName: String                         
+- description: String
+}
+
+class basicConfig <<(D,#FF7700) DataType>>{
+- timeZone: String
+- currency: String
+- country: String
+}
+
+
+class Exam {
+- examId: int
+- grade: String
+- marks: float
+- type: String
+- CCE: float
+- CWA: float
+- GPA: float
+- marks: List<Mark>
++ addMark(mark: Mark): void
++ calculateCCE(marks: List<int>): float
++ calculateCWA(marks: List<int>): float
++ calculateGPA(marks: List<int>): float
++ calculateGrade(marks: int): String
+}
+
+class examReport {
+- graphicalReport: Image
+- statisticalReport: Image
++ generateChartReport(): Image
++ generateGraphicalReport(): Image
++ generateStatisticalReport(): Image
++ generateGeneralReport(): Image
+}
+
+class HumanResources {
+- departmentHead: String
++ generatePayrollForm(): void
++ leaveApproval(): boolean
++ payslipApproval(): boolean
+}
+
+class Course{
+- courseID: String
+- instructor: String
+- courseName: String
+- credits: int
+- teachingAssistants: List<int>
+- rollNumbersOfEnrolledStudents: List<int>
++ addStudents(batchId: String, rollNumbers: List<int>): void
++ removeStudent(batchId: String, rollnumber: int): void
++ removeTA(courseID: String, teachingAssistants: List<int>): void
++ removeCourse(courseID: String): void
++ addTAsToCourse(courseID: String, teachingAssistants: List<int>): void
++ changeInstructor(courseID: String, instructor: String): void
++ addCourse(courseID: String, courseName: String, credits: int, instructor: String, teachingAssistants: List<int>): void
+}
+
+class Batch {
+- batchIdD: String
+- strength: int
+- rollNumbersOfEnrolledStudents: List<int>
++ addStudents(batchId: String, rollNumbers: List<int>): void
++ removeStudent(batchId: String, rollnumber: int): void
+}
+
+Dashboard "1" -- "1" TimeTable: contains
+Dashboard "1" -- "*" Course: contains
+Dashboard "1" -- "*" Batch: contains
+Dashboard "1" -- "1" Messaging: contains
+Dashboard "1" -- "1" Finance: contains
+Dashboard "1" -- "1" Attendance: contains
+Dashboard "1" -- "1" Student: contains
+Dashboard "1" -- "1" News: contains
+Dashboard "1" -- "1" UserMangement: contains
+
+Admission "1" -- "*" Student: joins through
+Admission "1" -- "1" AdmissionForm: contains
+Admission "1" <|-- "1" LocalAdmission: occurs through
+Admission "1" <|-- "1" TransferStudent: occurs through
+Admission "1" <|-- "1" InternationalAdmission: occurs through
+
+TimeTable "1" <-- "1..*" Student: follows
+TimeTable "1" --> "*" Exam: for
+TimeTable "1" --> "*" Course: for
+TimeTable "*" <-- "*" Batch: follows
+
+Messaging "1" --> "*" Student: to
+Messaging "1" <-- "1" HumanResources: sends
+Messaging "1" <-- "1" UserMangement: sends
+Messaging "1" <-- "1" Exam: sends
+Messaging "1" <-- "1" Course: sends
+
+Student "1" -- "1..*" Attendance: Number of Attendance
+Student "1" -- "1..*" News: views
+Student "1" -- "1" FeesManagement: pays fees through
+Student "1" -- "1..*" Role: holds
+Student "1" -- "*" Exam: gives
+Student "1" -- "1" HumanResources: consults
+Student "1" --> "*" Course: has
+Student "*" --> "1" Batch: belongs to
+
+News "1" --> "*" Comment: gets
+
+Finance "1" <|-- "1" FeesManagement: for Student
+Finance "1" <|-- "1" PayManagement:  for Employee
+
+UserMangement "1" -- "1" PayManagement: is paid through
+UserMangement "1" -- "*" Role: holds
+UserMangement "1" -- "1" HumanResources: consults
+
+Exam "1" -- "1..*" examReport: generates 
+Exam "*" <-- "1" Course: has
+
+Admission --> Guardian
+Admission --> Contact
+Admission --> Image
+LocalAdmission --> Image
+TransferStudent --> Image
+InternationalAdmission --> Image
+Attendance --> Image
+Student --> Image
+News --> Image
+FeesManagement --> Image
+Finance --> Image
+PayManagement --> Image
+examReport --> Image
+
+Admission --> EducationDetails
+AdmissionForm --> Field
+TimeTable --> Time
+Comments --> Time
+News --> Time
+FeesManagement --> Time
+
+Messaging --> Date
+Attendance --> Date
+Comments --> Date
+News --> Date
+FeesManagement --> Date
+PayManagement --> Date
+
+Finance --> DataAndValue
+FeesManagement --> DataAndValue
+
+Role --> Privilege
+
+Dashboard --> basicConfig
+
+@enduml
